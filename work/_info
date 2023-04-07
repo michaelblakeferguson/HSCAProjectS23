@@ -1,0 +1,70 @@
+m255
+K4
+z2
+!s99 nomlopt
+!s11f vlog 2021.1 2021.01, Jan 19 2021
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/Michael/Desktop/High Speed Computer Arithmetic/Project/HSCAProjectS23
+T_opt
+Z1 !s110 1680900382
+V^dgIzUO:gjfkIeFoFn;L70
+04 2 4 work tb fast 0
+=1-4c034f8999c8-6430811e-106-15c0
+!s124 OEM100
+o-quiet -auto_acc_if_foreign -work work +acc
+Z2 tCvgOpt 0
+n@_opt
+OL;O;2021.1;73
+vmux4
+Z3 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
+R1
+!i10b 1
+!s100 =oXID3eDFBKn5@f]PdS]@1
+ILBnGV8T?VXA8KVNjh8hAC2
+S1
+R0
+w1680900082
+8mux4.sv
+Fmux4.sv
+!i122 0
+L0 1 10
+Z4 VDg1SIo80bB@j0V0VzS_@n1
+Z5 OL;L;2021.1;73
+r1
+!s85 0
+31
+Z6 !s108 1680900382.000000
+Z7 !s107 mux4_tb.sv|mux4.sv|
+Z8 !s90 -reportprogress|300|mux4.sv|mux4_tb.sv|
+!i113 0
+Z9 o-L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R2
+vtb
+R3
+R1
+!i10b 1
+!s100 <o<[mOAafIio;lMJg?URZ1
+IUKmk_C3EidG9[g]<RV9nZ1
+S1
+R0
+w1680900374
+8mux4_tb.sv
+Fmux4_tb.sv
+!i122 0
+L0 2 52
+R4
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 0
+R9
+R2
