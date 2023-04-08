@@ -11,24 +11,24 @@
 # //  is prohibited from disclosure under the Trade Secrets Act,
 # //  18 U.S.C. Section 1905.
 # //
-# do mux4.do
+# do flopenr.do
 # Model Technology ModelSim SE-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
-# Start time: 15:46:22 on Apr 07,2023
-# vlog -reportprogress 300 mux4.sv mux4_tb.sv 
-# -- Compiling module mux4
+# Start time: 13:22:31 on Apr 08,2023
+# vlog -reportprogress 300 flopenr.sv flopenr_tb.sv 
+# -- Compiling module flopenr
 # -- Compiling module tb
 # 
 # Top level modules:
 # 	tb
-# End time: 15:46:22 on Apr 07,2023, Elapsed time: 0:00:00
+# End time: 13:22:31 on Apr 08,2023, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vsim -voptargs="+acc" work.tb 
-# Start time: 15:46:22 on Apr 07,2023
+# Start time: 13:22:31 on Apr 08,2023
 # ** Note: (vsim-3812) Design is being optimized...
 # Loading sv_std.std
 # Loading work.tb(fast)
-# Loading work.mux4(fast)
+# Loading work.flopenr(fast)
 # .main_pane.list.interior.cs.body
 # .main_pane.wave.interior.cs.body.pw.wf
-# End time: 15:49:09 on Apr 07,2023, Elapsed time: 0:02:47
+# End time: 13:24:08 on Apr 08,2023, Elapsed time: 0:01:37
 # Errors: 0, Warnings: 0

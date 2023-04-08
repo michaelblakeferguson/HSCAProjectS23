@@ -11,36 +11,36 @@ z2
 cModel Technology
 Z0 dC:/Users/Michael/Desktop/High Speed Computer Arithmetic/Project/HSCAProjectS23
 T_opt
-Z1 !s110 1680900382
-V^dgIzUO:gjfkIeFoFn;L70
+Z1 !s110 1680978151
+Vd^F6eNa3n?nQn0lMY[UIi1
 04 2 4 work tb fast 0
-=1-4c034f8999c8-6430811e-106-15c0
+=1-4c034f8999c8-6431b0e7-13d-1c1c
 !s124 OEM100
 o-quiet -auto_acc_if_foreign -work work +acc
 Z2 tCvgOpt 0
 n@_opt
 OL;O;2021.1;73
-vmux4
+vflopenr
 Z3 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
 R1
 !i10b 1
-!s100 =oXID3eDFBKn5@f]PdS]@1
-ILBnGV8T?VXA8KVNjh8hAC2
+!s100 5OGBEUUb4[Lc2`RW5?D6e0
+I73_YQT^XHmJ9U34DKJU7f2
 S1
 R0
-w1680900082
-8mux4.sv
-Fmux4.sv
+w1680978126
+8flopenr.sv
+Fflopenr.sv
 !i122 0
-L0 1 10
+L0 3 11
 Z4 VDg1SIo80bB@j0V0VzS_@n1
 Z5 OL;L;2021.1;73
 r1
 !s85 0
 31
-Z6 !s108 1680900382.000000
-Z7 !s107 mux4_tb.sv|mux4.sv|
-Z8 !s90 -reportprogress|300|mux4.sv|mux4_tb.sv|
+Z6 !s108 1680978151.000000
+Z7 !s107 flopenr_tb.sv|flopenr.sv|
+Z8 !s90 -reportprogress|300|flopenr.sv|flopenr_tb.sv|
 !i113 0
 Z9 o-L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
 R2
@@ -48,15 +48,15 @@ vtb
 R3
 R1
 !i10b 1
-!s100 <o<[mOAafIio;lMJg?URZ1
-IUKmk_C3EidG9[g]<RV9nZ1
+!s100 HITiM`QjM[@b7a6<=czkR1
+IOj;dAaQmIk<2A1UmEfn]10
 S1
 R0
-w1680900374
-8mux4_tb.sv
-Fmux4_tb.sv
+w1680977892
+8flopenr_tb.sv
+Fflopenr_tb.sv
 !i122 0
-L0 2 52
+L0 2 53
 R4
 R5
 r1
