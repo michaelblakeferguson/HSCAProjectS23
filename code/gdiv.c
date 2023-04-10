@@ -48,12 +48,14 @@ int main(int argc, char* argv[]) {
   for (i = 0; i < num_iter; i++) {
     N = flr(N*R, prec);
     D = flr(D*R, prec);
-    R = flr(2 - D, prec);
+    R = flr(2 - D - pow(2.0, -prec), prec);
     printf("i = %d, N = %lf, R = %lf\n", i, N, R);
     printf("i = %d, N = ", i);
     disp_bin(N, 2, iprec, stdout);
     printf(", R = ");
     disp_bin(R, 2, iprec, stdout);
+	printf(", D = ");
+	disp_bin(D, 2, iprec, stdout);
     printf("\n");
   }
 
