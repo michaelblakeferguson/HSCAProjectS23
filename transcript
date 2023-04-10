@@ -13,7 +13,7 @@
 # //
 # do fpdiv.do
 # Model Technology ModelSim SE-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
-# Start time: 02:52:30 on Apr 10,2023
+# Start time: 17:18:24 on Apr 10,2023
 # vlog -reportprogress 300 fpdiv.sv fpdiv_tb.sv 
 # -- Compiling module mux4
 # -- Compiling module mux3
@@ -23,10 +23,10 @@
 # 
 # Top level modules:
 # 	tb
-# End time: 02:52:30 on Apr 10,2023, Elapsed time: 0:00:00
+# End time: 17:18:24 on Apr 10,2023, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vsim -voptargs="+acc" work.tb 
-# Start time: 02:52:30 on Apr 10,2023
+# Start time: 17:18:24 on Apr 10,2023
 # ** Note: (vsim-3812) Design is being optimized...
 # Loading sv_std.std
 # Loading work.tb(fast)
@@ -36,5 +36,6 @@
 # Loading work.flopenr(fast)
 # .main_pane.list.interior.cs.body
 # .main_pane.wave.interior.cs.body.pw.wf
-# End time: 05:09:30 on Apr 10,2023, Elapsed time: 2:17:00
+# Causality operation skipped due to absence of debug database file
+# End time: 17:33:07 on Apr 10,2023, Elapsed time: 0:14:43
 # Errors: 0, Warnings: 0

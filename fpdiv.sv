@@ -59,7 +59,7 @@ module fpdiv (input [27:0] d,
 	mux4 muxb(d,x,regb_out,regc_out,sel_muxb,muxb_out);
 	
 	assign mul_op = muxa_out * muxb_out;
-	assign mul_out = mul_op[55:28];
+	assign mul_out = mul_op[55:28]; //[55:26]?
 	assign ones_comp = {mul_out[27],~mul_out[26:0]};
 	
 	flopenr rega(clock,reset,enA,ones_comp,rega_out);
