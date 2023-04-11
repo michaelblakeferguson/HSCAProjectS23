@@ -11,24 +11,24 @@ z2
 cModel Technology
 Z0 dC:/Users/Michael/Desktop/High Speed Computer Arithmetic/Project/HSCAProjectS23
 T_opt
-Z1 !s110 1681165104
-V7_ZaaPHeLWM4_`<_H3;I:2
+!s110 1681178523
+V6_RonU4<XDVh4j4F0DfNA3
 04 2 4 work tb fast 0
-=1-4c034f8999c8-64348b30-f4-2a64
+=1-4c034f8999c8-6434bf9b-b8-2a20
 !s124 OEM100
 o-quiet -auto_acc_if_foreign -work work +acc
-Z2 tCvgOpt 0
+Z1 tCvgOpt 0
 n@_opt
 OL;O;2021.1;73
 vflopenr
-Z3 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
-R1
+Z2 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
+Z3 !s110 1681178522
 !i10b 1
 !s100 G@XFY3V_22U3_4TdL1@>J0
 I=QPgig0^mcZ<gm?2Z^7Jz3
 S1
 R0
-Z4 w1681164999
+Z4 w1681174453
 Z5 8fpdiv.sv
 Z6 Ffpdiv.sv
 !i122 0
@@ -38,25 +38,25 @@ Z8 OL;L;2021.1;73
 r1
 !s85 0
 31
-Z9 !s108 1681165104.000000
+Z9 !s108 1681178522.000000
 Z10 !s107 fpdiv_tb.sv|fpdiv.sv|
 Z11 !s90 -reportprogress|300|fpdiv.sv|fpdiv_tb.sv|
 !i113 0
 Z12 o-L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
-R2
-vfpdiv
-R3
 R1
+vfpdiv
+R2
+R3
 !i10b 1
-!s100 Qz[fO<BiYe4]R1G7XEK7Y3
-Idj0[X54d]WFRJCRhA3?FP0
+!s100 3?lG63>C5QcCRDbccBUie3
+IKg0HlFeo@=T7hZ@zJfZ8a1
 S1
 R0
 R4
 R5
 R6
 !i122 0
-L0 36 34
+L0 36 32
 R7
 R8
 r1
@@ -67,10 +67,10 @@ R10
 R11
 !i113 0
 R12
-R2
-vmux3
-R3
 R1
+vmux3
+R2
+R3
 !i10b 1
 !s100 Bk7PnMaQRF6ahTQ2F]hf?2
 IUhMQ<l8S9XiZiSI0SnQaS1
@@ -91,10 +91,10 @@ R10
 R11
 !i113 0
 R12
-R2
-vmux4
-R3
 R1
+vmux4
+R2
+R3
 !i10b 1
 !s100 JB6DNd]ZL9B>G?^;U7XZ41
 I88kbDckC_J_3YM7?a9CHE3
@@ -115,20 +115,20 @@ R10
 R11
 !i113 0
 R12
-R2
-vtb
-R3
 R1
+vtb
+R2
+R3
 !i10b 1
-!s100 `ANnVIl;9UaND2A7fGV953
-I0BZ`z>_<F3=_FhcNMKTm71
+!s100 R=B[8JCA`jYOMT2^M<NIT0
+IT`lgPfMGTRmee7g@KEfCF3
 S1
 R0
-w1681165015
+w1681178512
 8fpdiv_tb.sv
 Ffpdiv_tb.sv
 !i122 0
-L0 2 81
+L0 2 125
 R7
 R8
 r1
@@ -139,4 +139,4 @@ R10
 R11
 !i113 0
 R12
-R2
+R1

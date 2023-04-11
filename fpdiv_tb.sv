@@ -76,6 +76,50 @@ module tb ();
 		#20  enA = 1'b0;
 		#0   enB = 1'b0;
 		#0   enC = 1'b0;
+		
+		#10  sel_muxa = 2'b00;
+		#0   sel_muxb = 2'b10;
+		
+		#10  enA = 1'b0;
+		#0   enB = 1'b1;
+		#0   enC = 1'b0;
+		
+		#20  enA = 1'b0;
+		#0   enB = 1'b0;
+		#0   enC = 1'b0;
+		
+		#10  sel_muxa = 2'b00;
+		#0   sel_muxb = 2'b11;
+		
+		#10  enA = 1'b1;
+		#0   enB = 1'b0;
+		#0   enC = 1'b1;
+		
+		#20  enA = 1'b0;
+		#0   enB = 1'b0;
+		#0   enC = 1'b0;
+		
+		#10  sel_muxa = 2'b00;
+		#0   sel_muxb = 2'b10;
+		
+		#10  enA = 1'b0;
+		#0   enB = 1'b1;
+		#0   enC = 1'b0;
+		
+		#20  enA = 1'b0;
+		#0   enB = 1'b0;
+		#0   enC = 1'b0;
+		
+		#10  sel_muxa = 2'b00;
+		#0   sel_muxb = 2'b11;
+		
+		#10  enA = 1'b1;
+		#0   enB = 1'b0;
+		#0   enC = 1'b1;
+		
+		#20  enA = 1'b0;
+		#0   enB = 1'b0;
+		#0   enC = 1'b0;
 	
     end
 
