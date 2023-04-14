@@ -24,7 +24,7 @@ if { $saifpower == 1 } {
 set my_verilog_files [glob hdl/*]
 
 # Set toplevel
-set my_toplevel fpadd
+set my_toplevel fma16
 
 # Set number of significant digits
 set report_default_significant_digits 6
