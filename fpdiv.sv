@@ -33,6 +33,77 @@ module flopenr (input  logic clock,
 		
 endmodule
 
+module mult_cs (input logic [27:0] a,
+				input logic [27:0] b,
+				output logic [55:0] sum,
+				output logic [55:0] carry);
+
+   // PP array
+   logic [55:0] 	      pp_array [0:27];
+   logic [55:0] 	      next_pp_array [0:27];   
+   logic [55:0] 	      tmp_sum, tmp_carry;
+   logic [55:0] 	      temp_pp;
+   logic [55:0] 	      tmp_pp_carry;
+   logic [27:0] 	      temp_b;
+   logic 		      temp_bitgroup;	
+   integer 		      bit_pair, height, i;      
+
+   always_comb 
+     begin 
+	// For each multiplicand PP generation
+	for (bit_pair=0; bit_pair < 28; bit_pair=bit_pair+1)
+	  begin
+	     // Shift to the right via P&H
+	     temp_b = (b >> (bit_pair));	     	     
+	     temp_bitgroup = temp_b[0];
+	     // PP generation
+	     case (temp_bitgroup)
+               1'b0 : temp_pp = {55{1'b0}};
+               1'b1 : temp_pp = a;
+               default : temp_pp = {55{1'b0}};
+	     endcase
+	     // Shift to the left via P&H
+	     temp_pp = temp_pp << (bit_pair);
+	     pp_array[bit_pair] = temp_pp;
+	  end 
+
+	// Height is multiplier
+	height = 28;
+
+	// Wallace Tree PP reduction
+	while (height > 2)
+	  begin
+	     for (i=0; i < (height/3); i=i+1)
+	       begin
+		  next_pp_array[i*2] = pp_array[i*3]^pp_array[i*3+1]^pp_array[i*3+2];		  
+		  tmp_pp_carry = (pp_array[i*3] & pp_array[i*3+1]) |
+				 (pp_array[i*3+1] & pp_array[i*3+2]) |
+				 (pp_array[i*3] & pp_array[i*3+2]);
+		  next_pp_array[i*2+1] = tmp_pp_carry << 1;
+	       end
+	     // Reasssign not divisible by 3 rows to next_pp_array
+	     if ((height % 3) > 0)
+	       begin
+		  for (i=0; i < (height % 3); i=i+1)
+		    next_pp_array[2 * (height/3) + i] = pp_array[3 * (height/3) + i];
+	       end
+	     // Put back values in pp_array to start again
+	     for (i=0; i < 28; i=i+1) 
+               pp_array[i] = next_pp_array[i];
+	     // Reduce height
+	     height = height - (height/3);
+	  end
+	// Sum is first row in reduced array
+	tmp_sum = pp_array[0];
+	// Carry is second row in reduced array
+	tmp_carry = pp_array[1];
+     end 
+
+   assign sum = tmp_sum;
+   assign carry = tmp_carry;
+
+endmodule
+
 module fpdiv (input [27:0] d,
 			  input [27:0] x,
 			  input [1:0] sel_muxa,
@@ -44,6 +115,7 @@ module fpdiv (input [27:0] d,
 			  input reset);
 			  
 	reg [55:0] mul_out;
+	reg [55:0] carry_out;
 	reg [55:0] ones_comp;
 	reg [27:0] rega_out;
 	reg [27:0] regb_out;
@@ -57,12 +129,35 @@ module fpdiv (input [27:0] d,
 	mux3 muxa(rega_out,d,ia,sel_muxa,muxa_out);
 	mux4 muxb(d,x,regb_out,regc_out,sel_muxb,muxb_out);
 	
-	assign mul_out = muxa_out * muxb_out;
+	//assign mul_out = muxa_out * muxb_out;
+	
+	mult_cs wallace(d,x,sum_out,carry_out);
+	assign mul_out = sum_out + carry_out;
 	assign ones_comp = ~mul_out;
 	
 	flopenr rega(clock,reset,enA,(ones_comp[54:27]),rega_out);
 	flopenr regb(clock,reset,enB,(mul_out[54:27]),regb_out);
 	flopenr regc(clock,reset,enC,(mul_out[54:27]),regc_out);
 	
+	////////////////////////////////////////////////////////
+	
+	flopenr regr(clock,reset,enR,(mul_out[54:27]),regr_out);
+	
+	assign k_q  = 28'b0000_0000_0000_0000_0000_0000_0100;
+	assign k_qp = 28'b0000_0000_0000_0000_0001_0001_0100;
+	assign k_qm = 28'b1111_1111_1111_1111_1111_1111_1011;
+	
+	assign rem = x - regr_out;
+	
+	assign Q   = mul_out[54:27] + k_q;
+	assign Qp1 = mul_out[54:27] + k_qp;
+	assign Qm1 = mul_out[54:27] + k_qm;
+	
+	mux3 muxr = (Q,Qp1,Qm1,rem,muxr_out);
+	
 endmodule
 
+//32-bit constants for rounding
+//q  = 0000_0000_0000_0000_0000_0000_0100_0000
+//qp = 0000_0000_0000_0000_0000_0001_0100_0000
+//qm - 1111_1111_1111_1111_1111_1111_1011_1111

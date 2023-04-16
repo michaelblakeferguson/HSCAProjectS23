@@ -1,24 +1,24 @@
 `timescale 1ns/1ps
 module stimulus;
 
-   logic [15:0] a;   
-   logic [15:0] b;
+   logic [27:0] a;   
+   logic [27:0] b;
    logic 	tc;   
-   logic [31:0] sum;
-   logic [31:0] carry;   
+   logic [55:0] sum;
+   logic [55:0] carry;   
 
-   logic [31:0] z_correct;
+   logic [55:0] z_correct;
    
    logic 	clk;
-   logic [31:0] errors;
-   logic [31:0] vectornum;      
+   logic [55:0] errors;
+   logic [55:0] vectornum;      
    
    integer 	 handle3;
    integer 	 i;  
    integer       j;
    integer 	 y_integer;   
 
-   mult_cs #(16) dut (a, b, tc, sum, carry);   
+   mult_cs dut (a, b, tc, sum, carry);   
 
    // 1 ns clock
    initial 
