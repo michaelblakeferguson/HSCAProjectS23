@@ -1,5 +1,5 @@
-module CSA (input  logic [7:0] a, [7:0] b, [0:0] c_0,
-            output logic [7:0] s);
+module CSA (input  logic [55:0] a, [55:0] b, [0:0] c_0,
+            output logic [55:0] s);
 	
 	reg p_0;
 	reg p_1;

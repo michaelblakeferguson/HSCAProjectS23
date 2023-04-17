@@ -48,7 +48,7 @@ module mult_cs (input logic [27:0] a,
    logic 		      temp_bitgroup;	
    integer 		      bit_pair, height, i;      
 
-   always_comb 
+   always_comb
      begin 
 	// For each multiplicand PP generation
 	for (bit_pair=0; bit_pair < 28; bit_pair=bit_pair+1)
@@ -111,18 +111,27 @@ module fpdiv (input [27:0] d,
 			  input enA,
 			  input enB,
 			  input enC,
+			  input enR,
 			  input clock,
 			  input reset);
 			  
 	reg [55:0] mul_out;
 	reg [55:0] carry_out;
+	reg [55:0] sum_out;
 	reg [55:0] ones_comp;
 	reg [27:0] rega_out;
 	reg [27:0] regb_out;
 	reg [27:0] regc_out;
+	reg [27:0] regr_out;
 	reg [27:0] muxa_out;
 	reg [27:0] muxb_out;
+	reg [27:0] muxr_out;
 	reg [27:0] ia;
+	reg [27:0] rem;
+	reg [27:0] Q;
+	reg [27:0] Qp1;
+	reg [27:0] Qm1;
+	reg [1:0] sel_muxr;
 
 	assign ia = 28'b0110_0000_0000_0000_0000_0000_0000; //0x6000000
 	
@@ -131,7 +140,8 @@ module fpdiv (input [27:0] d,
 	
 	//assign mul_out = muxa_out * muxb_out;
 	
-	mult_cs wallace(d,x,sum_out,carry_out);
+	mult_cs wallace(muxa_out,muxb_out,sum_out,carry_out);
+	
 	assign mul_out = sum_out + carry_out;
 	assign ones_comp = ~mul_out;
 	
@@ -149,11 +159,31 @@ module fpdiv (input [27:0] d,
 	
 	assign rem = x - regr_out;
 	
-	assign Q   = mul_out[54:27] + k_q;
-	assign Qp1 = mul_out[54:27] + k_qp;
-	assign Qm1 = mul_out[54:27] + k_qm;
+	assign Q   = regb_out + k_q;
+	assign Qp1 = regb_out + k_qp;
+	assign Qm1 = regb_out + k_qm;
 	
-	mux3 muxr = (Q,Qp1,Qm1,rem,muxr_out);
+	//RZ logic
+	always @ (clock)
+	begin  
+		case(rem[4]) //guard bit
+			1'b0:
+				case (rem)
+					28'b0: assign sel_muxr = 2'b00;
+					default:
+						case(rem[27])
+							1'b0: assign sel_muxr = 2'b00;
+							1'b1: assign sel_muxr = 2'b10;
+							default: assign sel_muxr = 2'bXX;
+						endcase
+				endcase
+			1'b1:
+				assign sel_muxr = 2'b00;
+			default: assign sel_muxr = 2'bXX;   
+		endcase  
+	end
+	
+	mux3 muxr(Q,Qp1,Qm1,sel_muxr,muxr_out);
 	
 endmodule
 

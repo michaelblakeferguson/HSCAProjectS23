@@ -11,10 +11,33 @@
 # //  is prohibited from disclosure under the Trade Secrets Act,
 # //  18 U.S.C. Section 1905.
 # //
-# vsim Wallace.do 
-# Start time: 02:30:51 on Apr 16,2023
-# ** Error (suppressible): (vsim-19) Failed to access library 'Wallace' at "Wallace".
-# No such file or directory. (errno = ENOENT)
-# Error loading design
-# End time: 02:30:52 on Apr 16,2023, Elapsed time: 0:00:01
-# Errors: 1, Warnings: 0
+# do fpdiv.do
+# Model Technology ModelSim SE-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+# Start time: 02:30:11 on Apr 17,2023
+# vlog -reportprogress 300 fpdiv.sv fpdiv_tb.sv 
+# -- Compiling module mux4
+# -- Compiling module mux3
+# -- Compiling module flopenr
+# -- Compiling module mult_cs
+# -- Compiling module fpdiv
+# -- Compiling module tb
+# 
+# Top level modules:
+# 	tb
+# End time: 02:30:11 on Apr 17,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vsim -voptargs="+acc" work.tb 
+# Start time: 02:30:11 on Apr 17,2023
+# ** Note: (vsim-3812) Design is being optimized...
+# Loading sv_std.std
+# Loading work.tb(fast)
+# Loading work.fpdiv(fast)
+# Loading work.mux3(fast)
+# Loading work.mux4(fast)
+# Loading work.mult_cs(fast)
+# Loading work.flopenr(fast)
+# .main_pane.list.interior.cs.body
+# .main_pane.wave.interior.cs.body.pw.wf
+# Causality operation skipped due to absence of debug database file
+# End time: 03:41:54 on Apr 17,2023, Elapsed time: 1:11:43
+# Errors: 0, Warnings: 0

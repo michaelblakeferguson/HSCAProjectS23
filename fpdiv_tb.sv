@@ -8,12 +8,13 @@ module tb ();
     logic        enA;
     logic        enB; 
     logic        enC;
+	logic        enR;
 	//logic        clock;
 	logic        clk;
 	logic        reset;
    
     // instantiate device under test
-    fpdiv dut (d,x,sel_muxa,sel_muxb,enA,enB,enC,clk,reset);
+    fpdiv dut (d,x,sel_muxa,sel_muxb,enA,enB,enC,enR,clk,reset);
 
     // 2 ns clock
     initial 
@@ -33,6 +34,7 @@ module tb ();
 		#0 enA = 1'b0;
 		#0 enB = 1'b0;
 		#0 enC = 1'b0;
+		#0 enR = 1'b0;
     
 		#20  reset = 1'b0;
 		
@@ -120,6 +122,17 @@ module tb ();
 		#20  enA = 1'b0;
 		#0   enB = 1'b0;
 		#0   enC = 1'b0;
+		
+		////////////////////////////////////////
+		
+		//find remainder
+		
+		#10 sel_muxa = 2'b01;
+		#0  sel_muxb = 2'b10;
+		
+		#10 enR = 1'b1;
+		
+		#20 enR = 1'b0;
 	
     end
 
