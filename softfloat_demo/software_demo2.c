@@ -55,8 +55,8 @@ int main() {
   convx.f = 1.30308703073;
   convy.f = 1.903038030370;
   //4BF7BFFF_DA7EEFFF_B0F8C855_01
-  x.v = 0x4BF7BFFF;
-  y.v = 0xDA7EEFFF;
+  x.v = 0x8683f7ff;
+  y.v = 0xc07f3fff;
   // Convert to SoftFloat format
   //x.v = (convx.x[1] << 16) + convx.x[0];
   //y.v = (convy.x[1] << 16) + convy.x[0];  
