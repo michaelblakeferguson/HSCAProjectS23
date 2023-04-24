@@ -24,18 +24,17 @@ void long2binstr(unsigned long  val, char *str, int bits) {
     str[0] = '0';
     str[1] = 0; 
   } else {
-    //    printf("long2binstr %lx %s %d\n", val, str, bits);
-    for (i=0; (i<bits) && (val != 0); i++) {
+    for (i=0; (i<bits); i++) {
       shamt = bits - i - 1;
       mask = 1;
       mask = (mask << shamt); 
       masked = val & ~mask; // mask off the bit
       if (masked != val) str[i] = '1';
       else str[i] = '0';
-      //      printf("  Considering %016lx mask %016lx (%d) masked %016lx str[%d] %c\n", val, mask, shamt, masked, i, str[i]);
       val = masked;
-      if (!val) str[i+1] = 0; // terminate when out of nonzero digits
     }
+    // (debug)
+    // printf("long2binstr %lx %s %d\n", val, str, bits);    
   } 
 }
 
@@ -79,14 +78,11 @@ void printF32(char *msg, float32_t f) {
 					     sign, fractstr);
   else sprintf(sci, "%c1.%s x 2^%ld", sign, fractstr, exp-127);
 
-  //printf ("%s: 0x%08x = %g\n", msg, conv.v, conv.f);
   printf("%s: ", msg);
   printf("0x%04x", (conv.v >> 16));
   printf("_");
   printf("%04x", (conv.v & 0xFFFF));
   printf(" = %g = %s: Biased Exp %ld Fract 0x%lx\n", conv.f, sci, exp, fract);
-  //printf ("%s: 0x%08x = %g = %s: Biased Exp %d Fract 0x%lx\n", 
-  //  msg, conv.v, conv.f, sci, exp, fract);  
 }
 
 int main() {
