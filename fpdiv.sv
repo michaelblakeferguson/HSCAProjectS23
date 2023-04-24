@@ -106,12 +106,17 @@ endmodule
 
 module fpdiv (input [27:0] d,
 			  input [27:0] x,
+			  input [7:0] d_exp,
+			  input [7:0] x_exp,
+			  input d_sign,
+			  input x_sign,
 			  input [1:0] sel_muxa,
 			  input [1:0] sel_muxb,
 			  input enA,
 			  input enB,
 			  input enC,
 			  input enR,
+			  input rMode,
 			  input clock,
 			  input reset);
 			  
@@ -128,17 +133,37 @@ module fpdiv (input [27:0] d,
 	reg [27:0] muxr_out;
 	reg [27:0] ia;
 	reg [27:0] rem;
+	reg [27:0] Q_out1;
+	reg [27:0] Qp1_out1;
+	reg [27:0] Qm1_out1;
+	reg [27:0] Q_out0;
+	reg [27:0] Qp1_out0;
+	reg [27:0] Qm1_out0;
 	reg [27:0] Q;
 	reg [27:0] Qp1;
 	reg [27:0] Qm1;
 	reg [1:0] sel_muxr;
+	reg [27:0] k_q;
+	reg [27:0] k_qp;
+	reg [27:0] k_qm;
+	reg [22:0] man_out;
+	reg [22:0] mantissa;
+	reg [7:0] exp_out;
+	reg [7:0] exp_out1;
+	reg [7:0] exponent;
+	reg sign;
+	
+	reg c1;
+	reg c2;
+	reg c3;
+	reg c4;
+	reg c5;
+	reg c6;
 
-	assign ia = 28'b0110_0000_0000_0000_0000_0000_0000; //0x6000000
+	assign ia = 28'b0110_0000_0000_0000_0000_0000_0000;
 	
 	mux3 muxa(rega_out,d,ia,sel_muxa,muxa_out);
 	mux4 muxb(d,x,regb_out,regc_out,sel_muxb,muxb_out);
-	
-	//assign mul_out = muxa_out * muxb_out;
 	
 	mult_cs wallace(muxa_out,muxb_out,sum_out,carry_out);
 	
@@ -154,40 +179,115 @@ module fpdiv (input [27:0] d,
 	flopenr regr(clock,reset,enR,(mul_out[54:27]),regr_out);
 	
 	assign k_q  = 28'b0000_0000_0000_0000_0000_0000_0100;
-	assign k_qp = 28'b0000_0000_0000_0000_0001_0001_0100;
-	assign k_qm = 28'b1111_1111_1111_1111_1111_1111_1011;
+	assign k_qp = 28'b0000_0000_0000_0000_0000_0001_0100;
+	assign k_qm = 28'b1111_1111_1111_1111_1111_1111_0011;
 	
 	assign rem = x - regr_out;
 	
-	assign Q   = regb_out + k_q;
-	assign Qp1 = regb_out + k_qp;
-	assign Qm1 = regb_out + k_qm;
+	always @(*)
+	begin
+		//[1,2) q1
+		assign {c1,Q_out1}   = regb_out + k_q;         //trunc
+		assign {c2,Qp1_out1} = regb_out + k_qp;        //inc
+		assign {c3,Qm1_out1} = regb_out + k_qm + 1'b1; //dec
+		
+		//[0.5,1) q0
+		assign {c4,Q_out0}   = {regb_out[26:0],1'b0} + k_q;            //trunc
+		assign {c5,Qp1_out0} = {regb_out[26:0],1'b0} + k_qp;           //inc
+		assign {c6,Qm1_out0} = {regb_out[26:0],1'b0} + k_qm + 1'b1;    //dec
 	
-	//RZ logic
-	always @ (clock)
-	begin  
-		case(rem[4]) //guard bit
+		if (Q_out1[27] == 1)
+		begin
+			assign Q = Q_out1;
+			assign Qp1 = Qp1_out1;
+			assign Qm1 = Qm1_out1;
+		end else
+		begin
+			assign Q = Q_out0;
+			assign Qp1 = Qp1_out0;
+			assign Qm1 = Qm1_out0;
+		end
+	
+	end
+		
+	always_comb
+	begin
+		case(rMode)
 			1'b0:
-				case (rem)
-					28'b0: assign sel_muxr = 2'b00;
-					default:
-						case(rem[27])
-							1'b0: assign sel_muxr = 2'b00;
-							1'b1: assign sel_muxr = 2'b10;
-							default: assign sel_muxr = 2'bXX;
+				//RZ logic
+				case(rem[4]) //guard bit
+					1'b0:
+						case (rem)
+							28'b0: assign sel_muxr = 2'b00;
+							default:
+								case(rem[27])
+									1'b0: assign sel_muxr = 2'b00;
+									1'b1: assign sel_muxr = 2'b10;
+									default: assign sel_muxr = 2'bXX;
+								endcase
 						endcase
+					1'b1:
+						assign sel_muxr = 2'b00;
+					default: assign sel_muxr = 2'bXX;   
 				endcase
 			1'b1:
-				assign sel_muxr = 2'b00;
-			default: assign sel_muxr = 2'bXX;   
-		endcase  
+				//RNE logic
+				case(rem[4]) //guard bit
+					1'b0:
+						assign sel_muxr = 2'b00;
+					1'b1:
+						case(rem[27])
+							1'b0: assign sel_muxr = 2'b01;
+							1'b1: assign sel_muxr = 2'b00;
+							default: assign sel_muxr = 2'bXX;
+						endcase
+					default: assign sel_muxr = 2'bXX;   
+				endcase
+		endcase
 	end
 	
-	mux3 muxr(Q,Qp1,Qm1,sel_muxr,muxr_out);
+	mux3 muxr(Q,Qm1,Qp1,sel_muxr,muxr_out);
+	assign man_out = muxr_out[26:4];
+	
+	//add 1 for RNE
+	always_comb
+	begin
+		if (rMode == 1'b1)
+		begin
+			assign mantissa = man_out + 1'b1;
+		end
+		if (rMode == 1'b0)
+		begin
+			assign mantissa = man_out;
+		end
+	end
+	
+	always_comb
+	begin
+		assign exp_out = d_exp - x_exp;
+		assign exp_out1 = ~(exp_out - 127);
+		if (Q_out1[27] == 1)
+		begin
+			assign exponent = exp_out1 + 1;
+		end else
+		begin
+			assign exponent = exp_out1;
+		end
+	end
+	
+	//sign bit calculation
+	always_comb
+	begin
+		if ((d_sign == 1'b0) && (x_sign == 1'b0))
+		begin
+			assign sign = 1'b0;
+		end else if ((d_sign == 1'b1) && (x_sign == 1'b1))
+		begin
+			assign sign = 1'b0;
+		end else
+		begin
+			assign sign = 1'b1;
+		end
+	end
 	
 endmodule
-
-//32-bit constants for rounding
-//q  = 0000_0000_0000_0000_0000_0000_0100_0000
-//qp = 0000_0000_0000_0000_0000_0001_0100_0000
-//qm - 1111_1111_1111_1111_1111_1111_1011_1111
