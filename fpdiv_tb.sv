@@ -25,7 +25,7 @@ module tb ();
 	
 	logic [31:0] xBits;
 	logic [31:0] dBits;
-	logic [31:0] outExp;
+	logic [31:0] correct;
 	logic [7:0]  flags;
 	
 	logic [27:0] manX;
@@ -54,18 +54,18 @@ module tb ();
 	
 	initial
     begin
-		file = $fopen("f32_div_rz.out");
-		$readmemh("f32_div_rz.tv", testvectors);
-		test = 0;
-		errors = 0;
-		passes = 0;
+		file = $fopen("f32_div_rne.out");
+		$readmemh("f32_div_rne.tv", testvectors);
+		#0 test = 0;
+		#0 errors = 0;
+		#0 passes = 0;
     end
 	
 	always
     begin
 		#0 reset = 1'b1;
 		
-		#1 {xBits, dBits, outExp, flags} = testvectors[test];
+		#1 {xBits, dBits, correct, flags} = testvectors[test];
 		#0 signX = xBits[31];
 		#0 signD = dBits[31];
 		#0 expX = xBits[30:23];
@@ -86,7 +86,7 @@ module tb ();
 		#0 enB = 1'b0;
 		#0 enC = 1'b0;
 		#0 enR = 1'b0;
-		#0 rMode = 1'b0;
+		#0 rMode = 1'b1;
 	
 		#20  reset = 1'b0;
 		
@@ -204,13 +204,21 @@ module tb ();
 		#0   enB = 1'b1;
 		#0   enC = 1'b0;
 		
+		
 		#20  enA = 1'b0;
 		#0   enB = 1'b0;
 		#0   enC = 1'b0;
 		
-		#0 result = {dut.sign,dut.exponent,dut.mantissa};
+		#10 sel_muxa = 2'b01;
+		#0  sel_muxb = 2'b10;
 		
-		if (result != outExp)
+		#10 enR = 1'b1;
+		
+		#20 enR = 1'b0;
+		
+		#10 result = dut.resultOut;
+		
+		if (result != correct)
 		begin
 			#0  $fdisplay(file, "Test %d:                       ERROR!", test);
 			errors = errors + 1;
@@ -219,7 +227,7 @@ module tb ();
 			#0  $fdisplay(file, "Test %d:   PASS", test);
 		end
 		
-		#0  $fdisplay(file, "              x: %h\n              d: %h\n         result: %h\n       expected: %h\n\n", xBits, dBits, result, outExp);
+		#0  $fdisplay(file, "              x: %h\n              d: %h\n         result: %h\n       expected: %h\n\n", xBits, dBits, result, correct);
 
 		test = test + 1;
 	

@@ -152,6 +152,7 @@ module fpdiv (input [27:0] d,
 	reg [7:0] exp_out1;
 	reg [7:0] exponent;
 	reg sign;
+	reg [31:0] resultOut;
 	
 	reg c1;
 	reg c2;
@@ -222,7 +223,7 @@ module fpdiv (input [27:0] d,
 							default:
 								case(rem[27])
 									1'b0: assign sel_muxr = 2'b00;
-									1'b1: assign sel_muxr = 2'b10;
+									1'b1: assign sel_muxr = 2'b01;
 									default: assign sel_muxr = 2'bXX;
 								endcase
 						endcase
@@ -262,6 +263,7 @@ module fpdiv (input [27:0] d,
 		end
 	end
 	
+	//exponent bit calculation
 	always_comb
 	begin
 		assign exp_out = d_exp - x_exp;
@@ -288,6 +290,11 @@ module fpdiv (input [27:0] d,
 		begin
 			assign sign = 1'b1;
 		end
+	end
+	
+	always_comb
+	begin
+		assign resultOut = {sign,exponent,mantissa};
 	end
 	
 endmodule

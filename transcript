@@ -12,8 +12,11 @@
 # //  18 U.S.C. Section 1905.
 # //
 # do fpdiv.do
+# ** Warning: (vdel-134) Unable to remove locked optimized design "_opt".  Locker is Michael@WORKSTATION.
+# ** Warning: (vlib-34) Library already exists at "work".
+# Errors: 0, Warnings: 1
 # Model Technology ModelSim SE-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
-# Start time: 01:07:45 on Apr 24,2023
+# Start time: 21:30:25 on Apr 24,2023
 # vlog -reportprogress 300 fpdiv.sv fpdiv_tb.sv 
 # -- Compiling module mux4
 # -- Compiling module mux3
@@ -24,10 +27,10 @@
 # 
 # Top level modules:
 # 	tb
-# End time: 01:07:45 on Apr 24,2023, Elapsed time: 0:00:00
+# End time: 21:30:25 on Apr 24,2023, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vsim -voptargs="+acc" work.tb 
-# Start time: 01:07:45 on Apr 24,2023
+# Start time: 21:30:25 on Apr 24,2023
 # ** Note: (vsim-3812) Design is being optimized...
 # Loading sv_std.std
 # Loading work.tb(fast)
@@ -38,9 +41,14 @@
 # Loading work.flopenr(fast)
 # .main_pane.list.interior.cs.body
 # .main_pane.wave.interior.cs.body.pw.wf
-# ** Note: $finish    : fpdiv_tb.sv(230)
-#    Time: 13970176 ns  Iteration: 6  Instance: /tb
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: Michael  Hostname: WORKSTATION  ProcessID: 13932
+#           Attempting to use alternate WLF file "./wlftiak9y7".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlftiak9y7
+# ** Note: $finish    : fpdiv_tb.sv(238)
+#    Time: 15518976 ns  Iteration: 3  Instance: /tb
 # 1
-# Break in Module tb at fpdiv_tb.sv line 230
-# End time: 01:33:48 on Apr 24,2023, Elapsed time: 0:26:03
-# Errors: 0, Warnings: 0
+# Break in Module tb at fpdiv_tb.sv line 238
+# End time: 21:50:06 on Apr 24,2023, Elapsed time: 0:19:41
+# Errors: 0, Warnings: 2
